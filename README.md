@@ -1,25 +1,20 @@
-# Free eCommerce Template for Next.js - NextMerce
+## TOP-PLUG-254
+## Kenya's Top plug ecommerce site
+# Core Features to Build
+User Management: Allow merchants to register, manage their accounts, and access dashboards.
 
-The free Next.js eCommerce template is a lite version of the NextMerce Next.js eCommerce boilerplate, designed to streamline the launch and management of your online store.
+Storefront Builder: Provide customizable templates and a drag-and-drop editor for storefront creation.
 
-![NextMerce](https://github.com/user-attachments/assets/57155689-a756-4222-8af7-134e556acae2)
+Product Management: Enable merchants to add, edit, categorize, and manage products.
 
+Payment Integration: Support multiple payment gateways like Stripe, PayPal, M-pesa.
 
-While NextMerce Pro features advanced functionalities, seamless integration, and customizable options, providing all the essential tools needed to build and expand your business, the lite version offers a basic Next.js template specifically crafted for eCommerce websites. Both versions ensure superior performance and flexibility, all powered by Next.js.
+Order Management: Include features for tracking orders, managing inventory, and processing returns.
 
-### NextMerce Free VS NextMerce Pro
+Analytics Dashboard: Offer insights into sales, traffic, and customer behavior.
 
-| ✨ Features                         | 🎁 NextMerce Free                 | 🔥 NextMerce Pro                        |
-|----------------------------------|--------------------------------|--------------------------------------|
-| Next.js Pages                    | Static                         | Dynamic Boilerplate Template         |
-| Components                       | Limited                        | All According to Demo                |
-| eCommerce Functionality          | Included                       | Included                             |
-| Integrations (DB, Auth, etc.)    | Not Included                   | Included                             |
-| Community Support                | Included                       | Included                             |
-| Premium Email Support            | Not Included                   | Included                             |
-| Lifetime Free Updates            | Included                       | Included                             |
+Multi-Tenancy: Ensure each user gets an isolated environment for their store.
 
+Third-Party App Integrations: Allow plugins for SEO tools, marketing apps, etc.
 
-#### [🚀 Live Demo](https://demo.nextmerce.com/)
-
-#### [🌐 Visit Website](https://nextmerce.com/)
+## Slogan : Usikubali kugongwa!Shop at Toplug254(Logo:TP)
