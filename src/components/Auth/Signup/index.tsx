@@ -9,6 +9,8 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
 import { register, googleAuth } from "@/redux/features/user-slice";
 import { useRouter } from "next/navigation";
+import { GoogleOAuthProvider } from '@react-oauth/google';
+
 
 const Signup = () => {
   const router = useRouter();
@@ -239,4 +241,10 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default function App({ Component, pageProps }) {
+  return (
+    <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}>
+      <Component {...pageProps} />
+    </GoogleOAuthProvider>
+  );
+}
