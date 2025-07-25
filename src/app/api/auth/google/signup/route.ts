@@ -14,10 +14,21 @@ export async function POST(request: Request) {
 
     const { email, name, picture } = googleResponse.data;
 
+    // Prepare user payload for backend
+    const username = email.split('@')[0];
+    const payload = {
+      username,
+      email,
+      user_type: "customer",
+      first_name: name?.split(' ')[0] || "",
+      last_name: name?.split(' ').slice(1).join(' ') || "",
+      // Add other fields if needed: phone, company_name, date_joined, etc.
+    };
+
     // Send to backend
     const backendResponse = await axios.post(
       `${process.env.NEXT_PUBLIC_API_URL}/api/auth/google/signup/`,
-      { access_token }
+      payload
     );
 
     const { access, refresh, user } = backendResponse.data;
@@ -43,4 +54,4 @@ export async function POST(request: Request) {
       { status: 500 }
     );
   }
-} 
+}

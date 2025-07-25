@@ -14,10 +14,20 @@ export async function POST(request: Request) {
 
     const { email, name, picture } = googleResponse.data;
 
-    // Send to backend
+    // You may want to generate a username from the email or name
+    const username = email.split('@')[0]; // or any unique logic
+
     const backendResponse = await axios.post(
       `${process.env.NEXT_PUBLIC_API_URL}/api/auth/google/signin/`,
-      { access_token }
+      {
+        username,
+        email,
+        password: access_token, // or a generated password if needed by your backend
+        user_type: "customer",
+        first_name: name?.split(' ')[0] || "",
+        last_name: name?.split(' ').slice(1).join(' ') || "",
+        // Add other fields as needed, e.g. phone, company_name, date_joined
+      }
     );
 
     const { access, refresh, user } = backendResponse.data;
@@ -43,4 +53,4 @@ export async function POST(request: Request) {
       { status: 500 }
     );
   }
-} 
+}
