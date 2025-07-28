@@ -109,7 +109,7 @@ const Header = () => {
 
   return (
     <header
-      className={`fixed left-0 top-0 w-full z-9999 bg-blue-600 transition-all ease-in-out duration-300 ${
+      className={`w-full z-9999 bg-blue transition-all ease-in-out duration-300 ${
         stickyMenu && "shadow-lg"
       }`}
     >
@@ -214,7 +214,7 @@ const Header = () => {
             </div>
 
             {/* <!-- divider --> */}
-            <span className="hidden xl:block w-px h-7.5 bg-blue-400"></span>
+            <span className="hidden xl:block w-px h-7.5 bg-blue-light"></span>
 
             <div className="flex w-full lg:w-auto justify-between items-center gap-5">
               <div className="flex items-center gap-5">
@@ -246,7 +246,7 @@ const Header = () => {
                       </svg>
 
                       <div>
-                        <span className="block text-2xs text-blue-100 uppercase">
+                        <span className="block text-2xs text-blue-light-5 uppercase">
                           {getUserFirstName(user)}
                         </span>
                         <p className="font-medium text-custom-sm text-white">
@@ -307,7 +307,7 @@ const Header = () => {
                     </svg>
 
                                       <div>
-                    <span className="block text-2xs text-blue-100 uppercase">
+                    <span className="block text-2xs text-blue-light-5 uppercase">
                       account
                     </span>
                     <p className="font-medium text-custom-sm text-white">
@@ -359,7 +359,7 @@ const Header = () => {
                   </span>
 
                   <div>
-                    <span className="block text-2xs text-blue-100 uppercase">
+                    <span className="block text-2xs text-blue-light-5 uppercase">
                       cart
                     </span>
                     <p className="font-medium text-custom-sm text-white">
@@ -416,7 +416,7 @@ const Header = () => {
         {/* <!-- header top end --> */}
       </div>
 
-      <div className="border-t border-blue-500">
+      <div className="border-t border-blue-light">
         <div className="max-w-[1170px] mx-auto px-4 sm:px-7.5 xl:px-0">
           <div className="flex items-center justify-between">
             {/* <!--=== Main Nav Start ===--> */}
@@ -443,7 +443,7 @@ const Header = () => {
                       >
                         <Link
                           href={menuItem.path}
-                          className={`hover:text-blue-200 text-custom-sm font-medium text-white flex ${
+                          className={`hover:text-blue-light-5 text-custom-sm font-medium text-white flex ${
                             stickyMenu ? "xl:py-4" : "xl:py-6"
                           }`}
                         >
@@ -462,10 +462,10 @@ const Header = () => {
             <div className="hidden xl:block">
               <ul className="flex items-center gap-5.5">
                 <li className="py-4">
-                                      <a
-                      href="#"
-                      className="flex items-center gap-1.5 font-medium text-custom-sm text-white hover:text-blue-200"
-                    >
+                                                        <a
+                    href="#"
+                    className="flex items-center gap-1.5 font-medium text-custom-sm text-white hover:text-blue-light-5"
+                  >
                     <svg
                       className="fill-current"
                       width="16"
@@ -490,7 +490,7 @@ const Header = () => {
                 <li className="py-4">
                   <Link
                     href="/wishlist"
-                    className="flex items-center gap-1.5 font-medium text-custom-sm text-white hover:text-blue-200"
+                    className="flex items-center gap-1.5 font-medium text-custom-sm text-white hover:text-blue-light-5"
                   >
                     <svg
                       className="fill-current"

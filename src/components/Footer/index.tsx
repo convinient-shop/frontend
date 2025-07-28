@@ -5,7 +5,7 @@ const Footer = () => {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="overflow-hidden bg-blue-600">
+    <footer className="overflow-hidden bg-blue">
       <div className="max-w-[1170px] mx-auto px-4 sm:px-8 xl:px-0">
         {/* <!-- footer menu start --> */}
         <div className="flex flex-wrap xl:flex-nowrap gap-10 xl:gap-19 xl:justify-between pt-17.5 xl:pt-22.5 pb-10 xl:pb-15">
@@ -91,7 +91,7 @@ const Footer = () => {
               <a
                 href="#"
                 aria-label="Facebook Social Link"
-                className="flex ease-out duration-200 hover:text-blue-200 text-white"
+                className="flex ease-out duration-200 hover:text-blue-light-5 text-white"
               >
                 <svg
                   className="fill-current"
@@ -116,7 +116,7 @@ const Footer = () => {
               <a
                 href="#"
                 aria-label="Twitter Social Link"
-                className="flex ease-out duration-200 hover:text-blue-200 text-white"
+                className="flex ease-out duration-200 hover:text-blue-light-5 text-white"
               >
                 <svg
                   className="fill-current"
@@ -136,7 +136,7 @@ const Footer = () => {
               <a
                 href="#"
                 aria-label="Instagram Social Link"
-                className="flex ease-out duration-200 hover:text-blue-200 text-white"
+                className="flex ease-out duration-200 hover:text-blue-light-5 text-white"
               >
                 <svg
                   className="fill-current"
@@ -171,7 +171,7 @@ const Footer = () => {
               <a
                 href="#"
                 aria-label="Linkedin Social Link"
-                className="flex ease-out duration-200 hover:text-blue-200 text-white"
+                className="flex ease-out duration-200 hover:text-blue-light-5 text-white"
               >
                 <svg
                   className="fill-current"
@@ -203,27 +203,27 @@ const Footer = () => {
 
             <ul className="flex flex-col gap-3.5">
               <li>
-                <a className="ease-out duration-200 hover:text-blue-200 text-white" href="#">
+                <a className="ease-out duration-200 hover:text-blue-light-5 text-white" href="#">
                   My Account
                 </a>
               </li>
               <li>
-                <a className="ease-out duration-200 hover:text-blue-200 text-white" href="#">
+                <a className="ease-out duration-200 hover:text-blue-light-5 text-white" href="#">
                   Login / Register
                 </a>
               </li>
               <li>
-                <a className="ease-out duration-200 hover:text-blue-200 text-white" href="#">
+                <a className="ease-out duration-200 hover:text-blue-light-5 text-white" href="#">
                   Cart
                 </a>
               </li>
               <li>
-                <a className="ease-out duration-200 hover:text-blue-200 text-white" href="#">
+                <a className="ease-out duration-200 hover:text-blue-light-5 text-white" href="#">
                   Wishlist
                 </a>
               </li>
               <li>
-                <a className="ease-out duration-200 hover:text-blue-200 text-white" href="#">
+                <a className="ease-out duration-200 hover:text-blue-light-5 text-white" href="#">
                   Shop
                 </a>
               </li>
@@ -334,7 +334,7 @@ const Footer = () => {
       </div>
 
       {/* <!-- footer bottom start --> */}
-      <div className="py-5 xl:py-7.5 bg-blue-700">
+      <div className="py-5 xl:py-7.5 bg-blue-dark">
         <div className="max-w-[1170px] mx-auto px-4 sm:px-8 xl:px-0">
           <div className="flex gap-5 flex-wrap items-center justify-between">
             <p className="text-white font-medium">
