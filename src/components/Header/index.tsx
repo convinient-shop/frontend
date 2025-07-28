@@ -215,7 +215,7 @@ const Header = () => {
 
                       <div>
                         <span className="block text-2xs text-dark-4 uppercase">
-                          account
+                          {user.name.split(' ')[0]}
                         </span>
                         <p className="font-medium text-custom-sm text-dark">
                           {user.name}
