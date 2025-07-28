@@ -18,13 +18,36 @@ interface AuthState {
   error: string | null;
 }
 
-const initialState: AuthState = {
-  user: null,
-  token: null,
-  isAuthenticated: false,
-  loading: false,
-  error: null,
+// Load user from localStorage on initialization
+const loadUserFromStorage = () => {
+  if (typeof window !== 'undefined') {
+    const storedUser = localStorage.getItem('user');
+    const storedToken = localStorage.getItem('token');
+    if (storedUser && storedToken) {
+      try {
+        const user = JSON.parse(storedUser);
+        return {
+          user,
+          token: storedToken,
+          isAuthenticated: true,
+          loading: false,
+          error: null,
+        };
+      } catch (error) {
+        console.error('Error parsing stored user:', error);
+      }
+    }
+  }
+  return {
+    user: null,
+    token: null,
+    isAuthenticated: false,
+    loading: false,
+    error: null,
+  };
 };
+
+const initialState: AuthState = loadUserFromStorage();
 
 // Async thunks
 export const login = createAsyncThunk(
@@ -72,11 +95,16 @@ export const googleAuth = createAsyncThunk(
   }
 );
 
-export const logout = createAsyncThunk('auth/logout', async () => {
-  // Clear cookies and local storage
-  document.cookie = 'auth_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-  localStorage.removeItem('user');
-  return null;
+export const logout = createAsyncThunk('auth/logout', async (_, { rejectWithValue }) => {
+  try {
+    // Clear cookies and local storage
+    document.cookie = 'auth_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    return null;
+  } catch (error: any) {
+    return rejectWithValue(error.message || 'Logout failed');
+  }
 });
 
 const authSlice = createSlice({
@@ -111,6 +139,11 @@ const authSlice = createSlice({
         state.isAuthenticated = true;
         state.user = action.payload.user;
         state.token = action.payload.access;
+        // Save to localStorage
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('user', JSON.stringify(action.payload.user));
+          localStorage.setItem('token', action.payload.access);
+        }
       })
       .addCase(login.rejected, (state, action) => {
         state.loading = false;
@@ -126,6 +159,11 @@ const authSlice = createSlice({
         state.isAuthenticated = true;
         state.user = action.payload.user;
         state.token = action.payload.access;
+        // Save to localStorage
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('user', JSON.stringify(action.payload.user));
+          localStorage.setItem('token', action.payload.access);
+        }
       })
       .addCase(register.rejected, (state, action) => {
         state.loading = false;
@@ -141,18 +179,31 @@ const authSlice = createSlice({
         state.isAuthenticated = true;
         state.user = action.payload.user;
         state.token = action.payload.access;
+        // Save to localStorage
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('user', JSON.stringify(action.payload.user));
+          localStorage.setItem('token', action.payload.access);
+        }
       })
       .addCase(googleAuth.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       })
       // Logout
+      .addCase(logout.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
       .addCase(logout.fulfilled, (state) => {
         state.user = null;
         state.token = null;
         state.isAuthenticated = false;
         state.loading = false;
         state.error = null;
+      })
+      .addCase(logout.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
       });
   },
 });
