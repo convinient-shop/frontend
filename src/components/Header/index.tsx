@@ -109,8 +109,8 @@ const Header = () => {
 
   return (
     <header
-      className={`fixed left-0 top-0 w-full z-9999 bg-white transition-all ease-in-out duration-300 ${
-        stickyMenu && "shadow"
+      className={`fixed left-0 top-0 w-full z-9999 bg-blue-600 transition-all ease-in-out duration-300 ${
+        stickyMenu && "shadow-lg"
       }`}
     >
       <div className="max-w-[1170px] mx-auto px-4 sm:px-7.5 xl:px-0">
@@ -204,17 +204,17 @@ const Header = () => {
               </svg>
 
               <div>
-                <span className="block text-2xs text-dark-4 uppercase">
+                <span className="block text-2xs text-blue-100 uppercase">
                   24/7 SUPPORT
                 </span>
-                <p className="font-medium text-custom-sm text-dark">
+                <p className="font-medium text-custom-sm text-white">
                   +254790690288
                 </p>
               </div>
             </div>
 
             {/* <!-- divider --> */}
-            <span className="hidden xl:block w-px h-7.5 bg-gray-4"></span>
+            <span className="hidden xl:block w-px h-7.5 bg-blue-400"></span>
 
             <div className="flex w-full lg:w-auto justify-between items-center gap-5">
               <div className="flex items-center gap-5">
@@ -246,10 +246,10 @@ const Header = () => {
                       </svg>
 
                       <div>
-                        <span className="block text-2xs text-dark-4 uppercase">
+                        <span className="block text-2xs text-blue-100 uppercase">
                           {getUserFirstName(user)}
                         </span>
-                        <p className="font-medium text-custom-sm text-dark">
+                        <p className="font-medium text-custom-sm text-white">
                           {getUserDisplayName(user)}
                         </p>
                       </div>
@@ -306,14 +306,14 @@ const Header = () => {
                       />
                     </svg>
 
-                    <div>
-                      <span className="block text-2xs text-dark-4 uppercase">
-                        account
-                      </span>
-                      <p className="font-medium text-custom-sm text-dark">
-                        Sign In
-                      </p>
-                    </div>
+                                      <div>
+                    <span className="block text-2xs text-blue-100 uppercase">
+                      account
+                    </span>
+                    <p className="font-medium text-custom-sm text-white">
+                      Sign In
+                    </p>
+                  </div>
                   </Link>
                 )}
 
@@ -359,10 +359,10 @@ const Header = () => {
                   </span>
 
                   <div>
-                    <span className="block text-2xs text-dark-4 uppercase">
+                    <span className="block text-2xs text-blue-100 uppercase">
                       cart
                     </span>
-                    <p className="font-medium text-custom-sm text-dark">
+                    <p className="font-medium text-custom-sm text-white">
                       ${totalPrice}
                     </p>
                   </div>
@@ -416,7 +416,7 @@ const Header = () => {
         {/* <!-- header top end --> */}
       </div>
 
-      <div className="border-t border-gray-3">
+      <div className="border-t border-blue-500">
         <div className="max-w-[1170px] mx-auto px-4 sm:px-7.5 xl:px-0">
           <div className="flex items-center justify-between">
             {/* <!--=== Main Nav Start ===--> */}
@@ -443,7 +443,7 @@ const Header = () => {
                       >
                         <Link
                           href={menuItem.path}
-                          className={`hover:text-blue text-custom-sm font-medium text-dark flex ${
+                          className={`hover:text-blue-200 text-custom-sm font-medium text-white flex ${
                             stickyMenu ? "xl:py-4" : "xl:py-6"
                           }`}
                         >
@@ -462,10 +462,10 @@ const Header = () => {
             <div className="hidden xl:block">
               <ul className="flex items-center gap-5.5">
                 <li className="py-4">
-                  <a
-                    href="#"
-                    className="flex items-center gap-1.5 font-medium text-custom-sm text-dark hover:text-blue"
-                  >
+                                      <a
+                      href="#"
+                      className="flex items-center gap-1.5 font-medium text-custom-sm text-white hover:text-blue-200"
+                    >
                     <svg
                       className="fill-current"
                       width="16"
@@ -490,7 +490,7 @@ const Header = () => {
                 <li className="py-4">
                   <Link
                     href="/wishlist"
-                    className="flex items-center gap-1.5 font-medium text-custom-sm text-dark hover:text-blue"
+                    className="flex items-center gap-1.5 font-medium text-custom-sm text-white hover:text-blue-200"
                   >
                     <svg
                       className="fill-current"
