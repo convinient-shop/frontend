@@ -23,6 +23,13 @@ const Header = () => {
   const product = useAppSelector((state) => state.cartReducer.items);
   const totalPrice = useSelector(selectTotalPrice);
   const { user, isAuthenticated } = useAppSelector((state) => state.auth);
+  
+  // Debug: Log user object to see its structure
+  useEffect(() => {
+    if (user) {
+      console.log('User object:', user);
+    }
+  }, [user]);
 
   const handleOpenCartModal = () => {
     openCartModal();
@@ -35,6 +42,31 @@ const Header = () => {
     } catch (error) {
       console.error('Logout failed:', error);
     }
+  };
+
+  // Helper function to get user's display name
+  const getUserDisplayName = (user: any) => {
+    // Check for combined name first, then individual fields
+    if (user.name) {
+      return user.name;
+    }
+    // Combine first_name and last_name if both exist
+    if (user.first_name && user.last_name) {
+      return `${user.first_name} ${user.last_name}`;
+    }
+    // Fall back to individual fields
+    return user.first_name || user.last_name || user.full_name || user.display_name || 'User';
+  };
+
+  // Helper function to get user's first name
+  const getUserFirstName = (user: any) => {
+    // If we have first_name, use it directly
+    if (user.first_name) {
+      return user.first_name;
+    }
+    // Otherwise, try to extract from combined name
+    const userName = getUserDisplayName(user);
+    return userName !== 'User' ? userName.split(' ')[0] : 'User';
   };
 
   // Sticky menu
@@ -215,10 +247,10 @@ const Header = () => {
 
                       <div>
                         <span className="block text-2xs text-dark-4 uppercase">
-                          {user.name ? user.name.split(' ')[0] : 'User'}
+                          {getUserFirstName(user)}
                         </span>
                         <p className="font-medium text-custom-sm text-dark">
-                          {user.name || 'User'}
+                          {getUserDisplayName(user)}
                         </p>
                       </div>
                     </button>

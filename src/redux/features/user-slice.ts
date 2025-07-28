@@ -4,10 +4,19 @@ import axios from 'axios';
 interface User {
   id: string;
   email: string;
-  name: string;
+  username?: string;
+  name?: string;
+  first_name?: string;
+  last_name?: string;
+  full_name?: string;
+  display_name?: string;
   profile_picture?: string;
   is_verified: boolean;
   auth_provider: string;
+  user_type?: string;
+  phone?: string;
+  company_name?: string;
+  date_joined?: string;
 }
 
 interface AuthState {
