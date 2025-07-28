@@ -215,10 +215,10 @@ const Header = () => {
 
                       <div>
                         <span className="block text-2xs text-dark-4 uppercase">
-                          {user.name.split(' ')[0]}
+                          {user.name ? user.name.split(' ')[0] : 'User'}
                         </span>
                         <p className="font-medium text-custom-sm text-dark">
-                          {user.name}
+                          {user.name || 'User'}
                         </p>
                       </div>
                     </button>
