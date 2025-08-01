@@ -19,15 +19,19 @@ export async function POST(request: Request) {
     const payload = {
       username,
       email,
+      password: "", // You may want to generate a random password or handle this in your backend
       user_type: "customer",
+      phone: "",
+      company_name: "",
       first_name: name?.split(' ')[0] || "",
       last_name: name?.split(' ').slice(1).join(' ') || "",
-      // Add other fields if needed: phone, company_name, date_joined, etc.
+      date_joined: new Date().toISOString(),
+      profile_picture: picture || "",
     };
 
     // Send to backend
     const backendResponse = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/auth/google/signup/`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/auth/signup/`,
       payload
     );
 
