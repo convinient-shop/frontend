@@ -3,31 +3,31 @@ import axios from 'axios';
 
 export async function POST(request: Request) {
   try {
-    const { access_token } = await request.json();
+    const { id_token } = await request.json();
 
-    // Get user info from Google
-    const googleResponse = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
-      headers: {
-        Authorization: `Bearer ${access_token}`
-      }
-    });
+    // Get user info from Google using id_token
+    const googleResponse = await axios.get(
+      `https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${id_token}`
+    );
 
     const { email, name, picture } = googleResponse.data;
+    const username = email.split('@')[0];
 
-    // You may want to generate a username from the email or name
-    const username = email.split('@')[0]; // or any unique logic
+    // Prepare payload for backend
+    const payload = {
+      id_token, // Send id_token to backend
+      username,
+      email,
+      user_type: "customer",
+      first_name: name?.split(' ')[0] || "",
+      last_name: name?.split(' ').slice(1).join(' ') || "",
+      profile_picture: picture || "",
+    };
 
+    // Send to backend
     const backendResponse = await axios.post(
       `${process.env.NEXT_PUBLIC_API_URL}/api/auth/google/signin/`,
-      {
-        username,
-        email,
-        password: access_token, // or a generated password if needed by your backend
-        user_type: "customer",
-        first_name: name?.split(' ')[0] || "",
-        last_name: name?.split(' ').slice(1).join(' ') || "",
-        // Add other fields as needed, e.g. phone, company_name, date_joined
-      }
+      payload
     );
 
     const { access, refresh, user } = backendResponse.data;

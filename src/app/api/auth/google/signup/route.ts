@@ -3,29 +3,24 @@ import axios from 'axios';
 
 export async function POST(request: Request) {
   try {
-    const { access_token } = await request.json();
+    const { id_token } = await request.json();
 
-    // Get user info from Google
-    const googleResponse = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
-      headers: {
-        Authorization: `Bearer ${access_token}`
-      }
-    });
+    // Get user info from Google using id_token
+    const googleResponse = await axios.get(
+      `https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${id_token}`
+    );
 
     const { email, name, picture } = googleResponse.data;
-
-    // Prepare user payload for backend
     const username = email.split('@')[0];
+
+    // Prepare payload for backend
     const payload = {
+      id_token, // Send id_token to backend
       username,
       email,
-      password: "", // You may want to generate a random password or handle this in your backend
       user_type: "customer",
-      phone: "",
-      company_name: "",
       first_name: name?.split(' ')[0] || "",
       last_name: name?.split(' ').slice(1).join(' ') || "",
-      date_joined: new Date().toISOString(),
       profile_picture: picture || "",
     };
 
