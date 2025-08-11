@@ -21,32 +21,32 @@ export async function POST(request: Request) {
       );
     }
 
-    // Prepare payloads: JSON and form-encoded (for compatibility)
-    const jsonPayload: Record<string, any> = {
-      id_token: idToken,
-      idToken: idToken,
-      token: idToken,
-    };
-    const formPayload = new URLSearchParams();
-    formPayload.set('id_token', idToken);
-    formPayload.set('idToken', idToken);
-    formPayload.set('token', idToken);
+    // Fetch user info from Google using id_token
+    const googleResponse = await axios.get(
+      `https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${idToken}`
+    );
+    const { email, name, picture } = googleResponse.data;
+    const username = email.split('@')[0];
 
-    let backendResponse;
-    try {
-      backendResponse = await axios.post(
-        `${backendBaseUrl}/api/auth/google/signin/`,
-        jsonPayload,
-        { headers: { 'Content-Type': 'application/json' } }
-      );
-    } catch (err: any) {
-      // Retry with form-encoded body if JSON fails
-      backendResponse = await axios.post(
-        `${backendBaseUrl}/api/auth/google/signin/`,
-        formPayload.toString(),
-        { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
-      );
-    }
+    // Prepare payload matching backend API schema exactly
+    const payload = {
+      username: username,
+      email: email,
+      password: '', // Backend expects this field but it's not used for Google auth
+      user_type: "customer",
+      phone: "",
+      company_name: "",
+      first_name: name?.split(' ')[0] || "",
+      last_name: name?.split(' ').slice(1).join(' ') || "",
+      date_joined: new Date().toISOString(),
+      profile_picture: picture || "",
+    };
+
+    const backendResponse = await axios.post(
+      `${backendBaseUrl}/api/auth/google/signin/`,
+      payload,
+      { headers: { 'Content-Type': 'application/json' } }
+    );
 
     const { access, user } = backendResponse.data;
 

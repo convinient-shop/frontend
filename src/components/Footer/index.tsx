@@ -237,7 +237,7 @@ const Footer = () => {
 
             <ul className="flex flex-col gap-3">
               <li>
-                <a className="ease-out duration-200 hover:text-white" href="#">
+                <a className="ease-out duration-200 hover:text-blue" href="#">
                   Privacy Policy
                 </a>
               </li>
