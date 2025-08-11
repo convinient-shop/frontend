@@ -3,36 +3,53 @@ import axios from 'axios';
 
 export async function POST(request: Request) {
   try {
-    const { id_token } = await request.json();
+    const body = await request.json();
+    const accessToken: string | undefined = body?.access_token;
 
-    // Get user info from Google using id_token
+    if (!accessToken) {
+      return NextResponse.json(
+        { error: 'Missing token: expected access_token' },
+        { status: 400 }
+      );
+    }
+
+    // Fetch user info from Google using access_token
     const googleResponse = await axios.get(
-      `https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${id_token}`
+      'https://www.googleapis.com/oauth2/v3/userinfo',
+      { headers: { Authorization: `Bearer ${accessToken}` } }
     );
+    const email = googleResponse.data.email || '';
+    const name = googleResponse.data.name || '';
+    const picture = googleResponse.data.picture || '';
 
-    const { email, name, picture } = googleResponse.data;
     const username = email.split('@')[0];
 
-    // Prepare payload for backend
-    const payload = {
-      id_token, // Send id_token to backend
+    const backendBaseUrl = process.env.NEXT_PUBLIC_API_URL;
+    if (!backendBaseUrl) {
+      return NextResponse.json(
+        { error: 'Backend API URL is not configured' },
+        { status: 500 }
+      );
+    }
+
+    // Prepare payload for backend — using access_token only
+    const payload: Record<string, any> = {
       username,
       email,
-      user_type: "customer",
-      first_name: name?.split(' ')[0] || "",
-      last_name: name?.split(' ').slice(1).join(' ') || "",
-      profile_picture: picture || "",
+      user_type: 'customer',
+      first_name: name?.split(' ')[0] || '',
+      last_name: name?.split(' ').slice(1).join(' ') || '',
+      profile_picture: picture || '',
     };
+    payload.access_token = accessToken;
 
-    // Send to backend
     const backendResponse = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/auth/google/signin/`,
+      `${backendBaseUrl}/api/auth/google/signin/`,
       payload
     );
 
-    const { access, refresh, user } = backendResponse.data;
+    const { access, user } = backendResponse.data;
 
-    // Set the auth token in cookies
     const nextResponse = NextResponse.json(
       { user, message: 'Successfully signed in with Google' },
       { status: 200 }
@@ -42,14 +59,15 @@ export async function POST(request: Request) {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
-      maxAge: 7 * 24 * 60 * 60 // 7 days
+      maxAge: 7 * 24 * 60 * 60,
     });
 
     return nextResponse;
-  } catch (error) {
-    console.error('Google sign-in error:', error);
+  } catch (error: any) {
+    const backendMessage = error?.response?.data || error?.message || 'Unknown error';
+    console.error('Google sign-in error:', backendMessage);
     return NextResponse.json(
-      { error: 'Failed to sign in with Google' },
+      { error: 'Failed to sign in with Google', details: backendMessage },
       { status: 500 }
     );
   }
