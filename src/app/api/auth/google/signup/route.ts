@@ -13,16 +13,6 @@ export async function POST(request: Request) {
       );
     }
 
-    // Fetch user info from Google using id_token
-    const googleResponse = await axios.get(
-      `https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${idToken}`
-    );
-    const email = googleResponse.data.email || '';
-    const name = googleResponse.data.name || '';
-    const picture = googleResponse.data.picture || '';
-
-    const username = email.split('@')[0];
-
     const backendBaseUrl = process.env.NEXT_PUBLIC_API_URL;
     if (!backendBaseUrl) {
       return NextResponse.json(
@@ -31,21 +21,32 @@ export async function POST(request: Request) {
       );
     }
 
-    // Prepare payload for backend — using id_token only
-    const payload: Record<string, any> = {
-      username,
-      email,
-      user_type: 'customer',
-      first_name: name?.split(' ')[0] || '',
-      last_name: name?.split(' ').slice(1).join(' ') || '',
-      profile_picture: picture || '',
+    // Prepare payloads: JSON and form-encoded (for compatibility)
+    const jsonPayload: Record<string, any> = {
+      id_token: idToken,
+      idToken: idToken,
+      token: idToken,
     };
-    payload.id_token = idToken;
+    const formPayload = new URLSearchParams();
+    formPayload.set('id_token', idToken);
+    formPayload.set('idToken', idToken);
+    formPayload.set('token', idToken);
 
-    const backendResponse = await axios.post(
-      `${backendBaseUrl}/api/auth/signup/`,
-      payload
-    );
+    let backendResponse;
+    try {
+      backendResponse = await axios.post(
+        `${backendBaseUrl}/api/auth/signup/`,
+        jsonPayload,
+        { headers: { 'Content-Type': 'application/json' } }
+      );
+    } catch (err: any) {
+      // Retry with form-encoded body if JSON fails
+      backendResponse = await axios.post(
+        `${backendBaseUrl}/api/auth/signup/`,
+        formPayload.toString(),
+        { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
+      );
+    }
 
     const { access, user } = backendResponse.data;
 
