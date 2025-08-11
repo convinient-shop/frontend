@@ -64,7 +64,7 @@ export const login = createAsyncThunk(
   async (credentials: { email: string; password: string }, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/signin/`,
+        `/api/auth/signin/`,
         credentials
       );
       return response.data;
@@ -79,7 +79,7 @@ export const register = createAsyncThunk(
   async (userData: { name: string; email: string; password: string }, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/signup/`,
+        `/api/auth/signup/`,
         userData
       );
       return response.data;
@@ -94,7 +94,7 @@ export const googleAuth = createAsyncThunk(
   async (access_token: string, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/google/signin/`,
+        `/api/auth/google/signin/`,
         { access_token }
       );
       return response.data;
