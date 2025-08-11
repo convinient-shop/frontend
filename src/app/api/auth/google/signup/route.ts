@@ -30,6 +30,7 @@ export async function POST(request: Request) {
 
     // Prepare payload matching backend API schema exactly
     const payload = {
+      id_token: idToken, // Backend requires this field
       username: username,
       email: email,
       password: '', // Backend expects this field but it's not used for Google auth
