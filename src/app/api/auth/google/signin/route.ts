@@ -4,19 +4,18 @@ import axios from 'axios';
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const accessToken: string | undefined = body?.access_token;
+    const idToken: string | undefined = body?.id_token;
 
-    if (!accessToken) {
+    if (!idToken) {
       return NextResponse.json(
-        { error: 'Missing token: expected access_token' },
+        { error: 'Missing token: expected id_token' },
         { status: 400 }
       );
     }
 
-    // Fetch user info from Google using access_token
+    // Fetch user info from Google using id_token
     const googleResponse = await axios.get(
-      'https://www.googleapis.com/oauth2/v3/userinfo',
-      { headers: { Authorization: `Bearer ${accessToken}` } }
+      `https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${idToken}`
     );
     const email = googleResponse.data.email || '';
     const name = googleResponse.data.name || '';
@@ -32,7 +31,7 @@ export async function POST(request: Request) {
       );
     }
 
-    // Prepare payload for backend — using access_token only
+    // Prepare payload for backend — using id_token only
     const payload: Record<string, any> = {
       username,
       email,
@@ -41,7 +40,7 @@ export async function POST(request: Request) {
       last_name: name?.split(' ').slice(1).join(' ') || '',
       profile_picture: picture || '',
     };
-    payload.access_token = accessToken;
+    payload.id_token = idToken;
 
     const backendResponse = await axios.post(
       `${backendBaseUrl}/api/auth/google/signin/`,

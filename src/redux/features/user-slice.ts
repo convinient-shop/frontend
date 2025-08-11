@@ -91,11 +91,11 @@ export const register = createAsyncThunk(
 
 export const googleAuth = createAsyncThunk(
   'auth/google',
-  async (access_token: string, { rejectWithValue }) => {
+  async (id_token: string, { rejectWithValue }) => {
     try {
       const response = await axios.post(
         `/api/auth/google/signin/`,
-        { access_token }
+        { id_token }
       );
       return response.data;
     } catch (error: any) {
