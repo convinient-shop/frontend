@@ -13,14 +13,6 @@ export async function POST(request: Request) {
       );
     }
 
-    const backendBaseUrl = process.env.NEXT_PUBLIC_API_URL;
-    if (!backendBaseUrl) {
-      return NextResponse.json(
-        { error: 'Backend API URL is not configured' },
-        { status: 500 }
-      );
-    }
-
     // Fetch user info from Google using id_token
     const googleResponse = await axios.get(
       `https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${idToken}`
@@ -43,16 +35,17 @@ export async function POST(request: Request) {
       profile_picture: picture || "",
     };
 
+    // Since Next.js rewrites are handling the routing, we can call the backend directly
     const backendResponse = await axios.post(
-      `${backendBaseUrl}/api/auth/signup/`,
+      'https://backend-hj5j.onrender.com/api/auth/google/signin/',
       payload,
       { headers: { 'Content-Type': 'application/json' } }
     );
 
-    const { access, user } = backendResponse.data;
+    const { access, refresh, user } = backendResponse.data;
 
     const nextResponse = NextResponse.json(
-      { user, message: 'Successfully signed up with Google' },
+      { user, access, refresh, message: 'Successfully signed up with Google' },
       { status: 200 }
     );
 
