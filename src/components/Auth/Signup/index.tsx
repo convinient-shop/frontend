@@ -35,11 +35,28 @@ const Signup = () => {
     }
     setIsLoading(true);
     try {
-      // Send signup request
-      await axios.post("/api/auth/signup/", {
-        email: formData.email,
+      // Generate username and names from email
+      const email = formData.email;
+      const username = email.split("@")[0];
+      const [first, ...rest] = username.split(/[._-]/);
+      const first_name = first || username;
+      const last_name = rest.join(" ") || username;
+
+      // Prepare payload for backend
+      const payload = {
+        username,
+        email,
         password: formData.password,
-      });
+        user_type: "customer",
+        phone: "",
+        company_name: "",
+        first_name,
+        last_name,
+        date_joined: new Date().toISOString(),
+        profile_picture: "",
+      };
+
+      await axios.post("/api/auth/signup/", payload);
 
       toast.success("Signup successful! Please check your email for verification.");
       router.push("/signin");
